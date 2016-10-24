@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -57,11 +58,11 @@ public class ItemFragment extends Fragment {
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
 
-        mLayoutManager = new LinearLayoutManager(getActivity());
+        mLayoutManager = new GridLayoutManager(getActivity(),2);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new ItemAdapter(mDataSet);
+        mAdapter = new ItemAdapter(mDataSet, getContext());
 
         mRecyclerView.setAdapter(mAdapter);
 
@@ -71,11 +72,6 @@ public class ItemFragment extends Fragment {
     }
 
     private void initDataset() {
-       /* mDataset = new String[DATASET_COUNT];
-        for (int i = 0; i < DATASET_COUNT; i++) {
-            mDataset[i] = "This is element #" + i;
-        }
-    }*/
 
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constants.URL,
@@ -90,7 +86,7 @@ public class ItemFragment extends Fragment {
                             for (int i = 0; i < jsonArray.length(); i++) {
 
                                 JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                String overView = jsonObject1.getString("overview");
+                                String overView = jsonObject1.getString("poster_path");
 
                                 ItemModel model = new ItemModel(overView);
                                 mDataSet.add(model);
