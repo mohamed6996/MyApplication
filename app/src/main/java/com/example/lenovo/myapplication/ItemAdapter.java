@@ -39,6 +39,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.VH> {
         String FULL_IMG = Constants.IMG_BASE + model.getOverView();
 
         Glide.with(context).load(FULL_IMG).into(holder.imageView);
+        holder.textView.setText(model.getFilm_name());
     }
 
     @Override
@@ -48,11 +49,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.VH> {
 
     public static class VH extends RecyclerView.ViewHolder {
         ImageView imageView;
+        TextView textView;
 
         public VH(View itemView) {
             super(itemView);
 
             imageView = (ImageView) itemView.findViewById(R.id.img);
+            textView = (TextView) itemView.findViewById(R.id.count);
         }
     }
 }

@@ -28,8 +28,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/img"
                 android:paddingBottom="1dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:textSize="12dp" />
 
             <ImageView
@@ -38,7 +38,7 @@
                 android:layout_height="30dp"
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/count"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="0dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_dots" />
 
