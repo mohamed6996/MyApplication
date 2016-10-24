@@ -1,14 +1,16 @@
 package com.example.lenovo.myapplication;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -46,9 +48,35 @@ public class ItemFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         mDataSet = new ArrayList<>();
 
-        initDataset();
+        initDataset(Constants.POPULAR);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.menu_item, menu);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        if (id == R.id.popular) {
+            if (mDataSet != null) mDataSet.clear();
+            initDataset(Constants.POPULAR);
+            return true;
+        }
+        if (id == R.id.top_rated) {
+            if (mDataSet != null) mDataSet.clear();
+            initDataset(Constants.TOP_RATED);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -57,24 +85,23 @@ public class ItemFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_item, container, false);
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
+        mRecyclerView.setHasFixedSize(true);
 
-        mLayoutManager = new GridLayoutManager(getActivity(),2);
-
+        mLayoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new ItemAdapter(mDataSet, getContext());
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
+        mAdapter = new ItemAdapter(mDataSet, getContext());
         mRecyclerView.setAdapter(mAdapter);
 
-
         return rootView;
-
     }
 
-    private void initDataset() {
+    private void initDataset(String url) {
 
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constants.URL,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -115,4 +142,6 @@ public class ItemFragment extends Fragment {
 
 
     }
+
+
 }

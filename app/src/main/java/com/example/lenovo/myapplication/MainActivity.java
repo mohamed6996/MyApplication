@@ -11,11 +11,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (savedInstanceState == null) {
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            ItemFragment fragment = new ItemFragment();
-            transaction.add(R.id.item_container, fragment);
-            transaction.commit();
+        if(savedInstanceState == null) {
+
+            if (findViewById(R.id.detail_container) != null) {
+                getSupportFragmentManager().beginTransaction().add(R.id.item_container, new ItemFragment()).commit();
+            }
+
+          else {  getSupportFragmentManager().beginTransaction().add(R.id.item_container, new ItemFragment()).commit();}
+
         }
+
     }
 }
